@@ -2,11 +2,19 @@ import pytest
 
 from bongo_solver.letter import Letter
 
+from beartype.roar import BeartypeCallHintParamViolation
+
 
 def test_init__valid_letter__creates_letter() -> None:
     """Test that a valid letter creates a Letter object."""
     letter = Letter("A")
     assert str(letter) == "A"
+
+
+def test_init__non_string__raises() -> None:
+    """Test that a non non typed input raises."""
+    with pytest.raises(BeartypeCallHintParamViolation):
+        Letter(1)  # type: ignore[arg-type]
 
 
 def test_init__lower_letter__creates_letter() -> None:
