@@ -1,4 +1,6 @@
-from pytest import MonkeyPatch, fixture, raises
+"""Contains tests for the letter_scores module."""
+
+import pytest
 
 from bongo_solver.letter import Letter
 from bongo_solver.letter_scores import try_get_letter_score
@@ -8,8 +10,8 @@ TEST_LETTER_SCORES = {
 }
 
 
-@fixture
-def mock_letter_scores(monkeypatch: MonkeyPatch) -> None:
+@pytest.fixture
+def mock_letter_scores(monkeypatch: pytest.MonkeyPatch) -> None:
     """Patch the letter_scores module."""
     monkeypatch.setattr("bongo_solver.letter_scores.LETTER_SCORES", TEST_LETTER_SCORES)
 
@@ -27,7 +29,7 @@ def test_try_get_letter_score__invalid_letter__raises_error(
 ) -> None:
     """Test that an invalid letter raises an error."""
     letter = Letter("B")
-    with raises(ValueError, match="Letter 'B' does not have a score defined."):
+    with pytest.raises(ValueError, match="Letter 'B' does not have a score defined."):
         try_get_letter_score(letter)
 
 
@@ -42,5 +44,5 @@ def test_try_get_letter_score__invalid_letter_str__raises_error(
     mock_letter_scores: None,
 ) -> None:
     """Test that an invalid letter string raises an error."""
-    with raises(ValueError, match="Letter 'B' does not have a score defined."):
+    with pytest.raises(ValueError, match="Letter 'B' does not have a score defined."):
         try_get_letter_score("B")
