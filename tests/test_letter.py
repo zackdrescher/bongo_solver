@@ -1,8 +1,9 @@
+"""Tests for the Letter class."""
+
 import pytest
+from beartype.roar import BeartypeCallHintParamViolation
 
 from bongo_solver.letter import Letter
-
-from beartype.roar import BeartypeCallHintParamViolation
 
 
 def test_init__valid_letter__creates_letter() -> None:
