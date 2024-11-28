@@ -38,3 +38,15 @@ def test_init__valid_letter__creates_letter_tile(
     assert str(letter_tile.letter) == "A"
     assert letter_tile.score == 1
     mock_try_get_letter_score.assert_called_once_with(letter)
+
+
+def test_str__returns_string(mock_try_get_letter_score: MagicMock) -> None:
+    """Test that the __str__ method returns a string."""
+    letter_tile = LetterTile("A")
+    assert str(letter_tile) == "A(1)"
+
+
+def test_repr__returns_string(mock_try_get_letter_score: MagicMock) -> None:
+    """Test that the __repr__ method returns a string."""
+    letter_tile = LetterTile("A")
+    assert repr(letter_tile) == "LetterTile(A, 1)"

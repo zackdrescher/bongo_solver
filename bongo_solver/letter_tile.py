@@ -16,3 +16,11 @@ class LetterTile:
 
         self.letter = letter
         self.score = try_get_letter_score(letter)
+
+    def __repr__(self) -> str:
+        """Return a string representation of the letter tile."""
+        return f"{self.__class__.__name__}({self.letter}, {self.score})"
+
+    def __str__(self) -> str:
+        """Return a string representation of the letter tile."""
+        return f"{self.letter}({self.score})"
