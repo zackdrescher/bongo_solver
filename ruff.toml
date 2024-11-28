@@ -2,4 +2,4 @@
 select=["ALL"]
 
 [lint.per-file-ignores]
-"tests/*" = ["S101", "ARG001"]
+"tests/*" = ["S101", "ARG001", "PLR2004"]
