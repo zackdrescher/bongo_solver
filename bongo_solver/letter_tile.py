@@ -14,8 +14,13 @@ class LetterTile:
         if isinstance(letter, str):
             letter = Letter(letter)
 
-        self.letter = letter
+        self.__letter = letter
         self.score = try_get_letter_score(letter)
+
+    @property
+    def letter(self) -> Letter:
+        """Return the letter of the tile."""
+        return self.__letter
 
     def __repr__(self) -> str:
         """Return a string representation of the letter tile."""
