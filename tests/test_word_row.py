@@ -176,3 +176,27 @@ def test_score__common__score(score_tile: MagicMock) -> None:
     score = word_row.score
 
     assert score == 13
+
+
+def test_get_bonus_ix__no_bonus() -> None:
+    """Test that get_bonus_ix returns -1 when there is no bonus slot."""
+    slots = [LetterSlot() for _ in range(5)]
+    dictionary = MagicMock(Dictionary)
+    word_row = WordRow(slots, dictionary)
+
+    bonus_ix = word_row.get_bonus_ix()
+
+    assert bonus_ix == -1
+
+
+@pytest.mark.parametrize("bonus_ix", [0, 1, 2, 3, 4])
+def test_get_bonus_ix__with_bonus(bonus_ix: int) -> None:
+    """Test that get_bonus_ix returns the index of the bonus slot."""
+    slots = [LetterSlot() for _ in range(5)]
+    slots[bonus_ix] = BonusLetterSlot()
+    dictionary = MagicMock(Dictionary)
+    word_row = WordRow(slots, dictionary)
+
+    result = word_row.get_bonus_ix()
+
+    assert result == bonus_ix

@@ -59,6 +59,17 @@ class WordRow:
             for slot in self.__slots
         ).strip()
 
+    def get_bonus_ix(self) -> int:
+        """Return the index of the bonus slot."""
+        return next(
+            (
+                ix
+                for ix, slot in enumerate(self.__slots)
+                if isinstance(slot, BonusLetterSlot)
+            ),
+            -1,
+        )
+
     def __getitem__(self, index: int) -> LetterSlot:
         """Return the slot at the given index."""
         return self.__slots[index]
