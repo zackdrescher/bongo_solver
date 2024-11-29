@@ -1,31 +1,30 @@
-"""Contains the WordRow class."""
+"""Base class for a word."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Self
 
+from bongo_solver import nobeartype
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
-from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 
 if TYPE_CHECKING:  # pragma: no cover
+    from bongo_solver.letter_slot.base_letter_slot import LetterSlot
     from bongo_solver.letter_tile import LetterTile
 
-    from .letter_slot.base_letter_slot import LetterSlot
 
-WORD_ROW_LENGTH = 5
+class Word:
+    """A word made up of letter slots."""
 
-
-class WordRow:
-    """A row of letter slots that make up a word."""
+    @nobeartype
+    def __new__(cls, *args: tuple[Any, ...], **kwargs: dict[str, Any]) -> Self:  # noqa: ARG003
+        """Prevent instantiation of the base class."""
+        if cls is Word:
+            msg = "Cannot instantiate the base class."
+            raise TypeError(msg)
+        return super().__new__(cls)
 
     def __init__(self, slots: list[LetterSlot], dictionary: Dictionary) -> None:
-        """Initialize the word row."""
-        if len(slots) != WORD_ROW_LENGTH:
-            msg = f"A word row must contain {WORD_ROW_LENGTH} slots."
-            raise ValueError(msg)
-        if sum(isinstance(slot, BonusLetterSlot) for slot in slots) > 1:
-            msg = "A word row can only contain one bonus slot."
-            raise ValueError(msg)
+        """Initialize the word."""
         self.__slots = slots
         self.__dictionary = dictionary
 
@@ -58,17 +57,6 @@ class WordRow:
             str(slot.letter_tile.letter) if not slot.is_empty else " "  # type: ignore[union-attr]
             for slot in self.__slots
         ).strip()
-
-    def get_bonus_ix(self) -> int:
-        """Return the index of the bonus slot."""
-        return next(
-            (
-                ix
-                for ix, slot in enumerate(self.__slots)
-                if isinstance(slot, BonusLetterSlot)
-            ),
-            -1,
-        )
 
     def __getitem__(self, index: int) -> LetterSlot:
         """Return the slot at the given index."""
