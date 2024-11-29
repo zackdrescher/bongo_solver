@@ -1,2 +1,2 @@
 #! /bin/bash
-pytest --cov=bongo_solver tests/
+coverage run --source=bongo_solver -m pytest -v tests/ && coverage report -m
