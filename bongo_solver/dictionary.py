@@ -4,25 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bongo_solver.word_row import WordRow
-
-WordList = set[str] | list[str]
-
-WordLike = str | WordRow
-
-
-def coerce_to_str(word: WordLike) -> str:
-    """Coerce a word to a string."""
-    if isinstance(word, WordRow):
-        word = word.word
-    return word
-
-
-def coerce_to_set(words: WordList) -> set[str]:
-    """Coerce a list of words to a set."""
-    if isinstance(words, list):
-        words = set(words)
-    return words
+from bongo_solver.type_helpers.word_list import WordList, coerce_to_set
 
 
 def load_word_file(file_path: str | Path) -> set[str]:
@@ -83,12 +65,10 @@ class Dictionary:
         """Return the set of all words."""
         return self.__common_words | self.__valid_words
 
-    def __contains__(self, word: WordLike) -> bool:
+    def __contains__(self, word: str) -> bool:
         """Return True if the word is in the dictionary."""
-        word = coerce_to_str(word)
         return word in self.all_words
 
-    def is_common(self, word: WordLike) -> bool:
+    def is_common(self, word: str) -> bool:
         """Return True if the word is a common word."""
-        word = coerce_to_str(word)
         return word in self.__common_words

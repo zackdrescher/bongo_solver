@@ -3,13 +3,7 @@
 from pathlib import Path
 from unittest.mock import MagicMock, call, mock_open, patch
 
-from bongo_solver.dictionary import Dictionary, coerce_to_str, load_word_file
-
-
-def test_coerce_to_str__str__returns_str() -> None:
-    """Test that the coerce_to_str function returns a string."""
-    word = "test"
-    assert coerce_to_str(word) == word
+from bongo_solver.dictionary import Dictionary, load_word_file
 
 
 def test_load_word_file__path__opens() -> None:
