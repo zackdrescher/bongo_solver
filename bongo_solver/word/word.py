@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, Self
 
 from bongo_solver import nobeartype
@@ -23,7 +24,7 @@ class Word:
             raise TypeError(msg)
         return super().__new__(cls)
 
-    def __init__(self, slots: list[LetterSlot], dictionary: Dictionary) -> None:
+    def __init__(self, slots: Sequence[LetterSlot], dictionary: Dictionary) -> None:
         """Initialize the word."""
         self.__slots = slots
         self.__dictionary = dictionary
