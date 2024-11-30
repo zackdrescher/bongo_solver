@@ -7,6 +7,7 @@ import re
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
+from bongo_solver.letter_slot.letter_slot import LetterSlot
 
 from .word import Word
 
@@ -23,7 +24,7 @@ def parse_slot_from_symbol(symbol: str) -> BaseLetterSlot:
         raise ValueError(msg)
 
     if symbol == " ":
-        return BaseLetterSlot()
+        return LetterSlot()
     if symbol.isdigit():
         return BaseLetterSlot(int(symbol))
     if symbol.upper() == "B":
