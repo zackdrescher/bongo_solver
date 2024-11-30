@@ -8,7 +8,7 @@ from bongo_solver.dictionary import Dictionary
 from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot  # noqa: TC001
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.letter_slot.letter_slot import LetterSlot
-from bongo_solver.word.word_row import WordRow, parse_slot_from_symbol
+from bongo_solver.word.word_row import WordRow
 
 
 def test_init__successful() -> None:
@@ -74,13 +74,3 @@ def test_get_bonus_ix__with_bonus(bonus_ix: int) -> None:
     result = word_row.get_bonus_ix()
 
     assert result == bonus_ix
-
-
-def test_parse_slot_from_symbol__space__empty_slot() -> None:
-    """Test that parse_slot_from_symbol returns an empty slot when passed a space."""
-    result = parse_slot_from_symbol(" ")
-
-    assert result == LetterSlot()
-
-
-# TODO: (ZD) Add more tests for parse_slot_from_symbol
