@@ -15,17 +15,29 @@ class LetterTile:
             letter = Letter(letter)
 
         self.__letter = letter
-        self.score = try_get_letter_score(letter)
+        self.__score = try_get_letter_score(letter)
 
     @property
     def letter(self) -> Letter:
         """Return the letter of the tile."""
         return self.__letter
 
+    @property
+    def score(self) -> int:
+        """Return the point value of the tile."""
+        return self.__score
+
     def __repr__(self) -> str:
         """Return a string representation of the letter tile."""
-        return f"{self.__class__.__name__}({self.letter}, {self.score})"
+        return f"{self.__class__.__name__}({self.letter}, {self.__score})"
 
     def __str__(self) -> str:
         """Return a string representation of the letter tile."""
-        return f"{self.letter}({self.score})"
+        return f"{self.letter}({self.__score})"
+
+    def __eq__(self, value: object) -> bool:
+        """Check if object is equal to this letter tile."""
+        if not isinstance(value, LetterTile):
+            return False
+
+        return self.letter == value.letter and self.score == value.score
