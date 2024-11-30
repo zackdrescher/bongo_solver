@@ -13,8 +13,8 @@ from .word import Word
 
 WORD_ROW_LENGTH = 5
 
-STR_SLOT_SYMBOL_REGEX = r"(/d|[Bb ])"
-STR_ROW_REGEX = rf"/[{STR_SLOT_SYMBOL_REGEX*WORD_ROW_LENGTH}/]"
+STR_SLOT_SYMBOL_REGEX = r"(\d|[Bb ])"
+STR_ROW_REGEX = rf"\[{STR_SLOT_SYMBOL_REGEX*WORD_ROW_LENGTH}\]"
 
 
 class WordRow(Word):
