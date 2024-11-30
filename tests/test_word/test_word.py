@@ -5,14 +5,14 @@ from unittest.mock import MagicMock
 import pytest
 
 from bongo_solver.dictionary import Dictionary
-from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot
+from bongo_solver.letter_slot.letter_slot import LetterSlot
 from bongo_solver.letter_tile import LetterTile
 from bongo_solver.word.word import Word
 
 
 def test_init__raises() -> None:
     """Test that a WordRow cannot be initialized with an invalid number of slots."""
-    slots = [BaseLetterSlot() for _ in range(4)]
+    slots = [LetterSlot() for _ in range(4)]
     dictionary = MagicMock(Dictionary)
 
     with pytest.raises(TypeError, match="Cannot instantiate the base class."):
@@ -26,11 +26,11 @@ class ConcreteWord(Word):
 def test_init__successful() -> None:
     """Test that a WordRow can be initialized."""
     slots = [
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
     ]
     dictionary = MagicMock(Dictionary)
 
@@ -43,11 +43,11 @@ def test_init__successful() -> None:
 def test_get_item__successful() -> None:
     """Test that a slot can be retrieved from a WordRow."""
     slots = [
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
     ]
     dictionary = MagicMock(Dictionary)
     word_row = ConcreteWord(slots, dictionary)
@@ -60,11 +60,11 @@ def test_get_item__successful() -> None:
 def test_set_item__successful() -> None:
     """Test that a tile can be placed in a slot in a WordRow."""
     slots = [
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
-        BaseLetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
+        LetterSlot(),
     ]
     dictionary = MagicMock(Dictionary)
     word_row = ConcreteWord(slots, dictionary)
@@ -113,7 +113,7 @@ def test_set_item__successful() -> None:
 )
 def test_word__with_tiles(indecies: list[int], expected_word: str) -> None:
     """Test that the word property returns the correct word when tiles are placed."""
-    slots = [BaseLetterSlot() for _ in range(5)]
+    slots = [LetterSlot() for _ in range(5)]
     dictionary = MagicMock(Dictionary)
     word_row = ConcreteWord(slots, dictionary)
 
@@ -141,7 +141,7 @@ def score_tile() -> MagicMock:
 
 def test_score__not_valid__zero(score_tile: MagicMock) -> None:
     """Test that the score property returns 0 when the word is not valid."""
-    slots = [BaseLetterSlot() for _ in range(5)]
+    slots = [LetterSlot() for _ in range(5)]
     dictionary = MagicMock(Dictionary)
     dictionary.is_common.return_value = False
     dictionary.__contains__.return_value = False
@@ -156,7 +156,7 @@ def test_score__not_valid__zero(score_tile: MagicMock) -> None:
 
 def test_score__valid__score(score_tile: MagicMock) -> None:
     """Test that the score property returns the score of the word when it is valid."""
-    slots = [BaseLetterSlot() for _ in range(5)]
+    slots = [LetterSlot() for _ in range(5)]
     dictionary = MagicMock(Dictionary)
     dictionary.is_common.return_value = False
     dictionary.__contains__.return_value = True
@@ -171,7 +171,7 @@ def test_score__valid__score(score_tile: MagicMock) -> None:
 
 def test_score__common__score(score_tile: MagicMock) -> None:
     """Test that the score returns 1.3 times the score of the word when it is common."""
-    slots = [BaseLetterSlot() for _ in range(5)]
+    slots = [LetterSlot() for _ in range(5)]
     dictionary = MagicMock(Dictionary)
     dictionary.is_common.return_value = True
     dictionary.__contains__.return_value = False

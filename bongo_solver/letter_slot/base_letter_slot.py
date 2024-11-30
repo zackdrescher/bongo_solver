@@ -2,11 +2,22 @@
 
 from __future__ import annotations
 
+from typing import Any, Self
+
+from bongo_solver import nobeartype
 from bongo_solver.letter_tile import LetterTile  # noqa: TC001
 
 
 class BaseLetterSlot:
     """A slot to contain a letter in a word."""
+
+    @nobeartype
+    def __new__(cls, *args: tuple[Any, ...], **kwargs: dict[str, Any]) -> Self:  # noqa: ARG003
+        """Prevent instantiation of the base class."""
+        if cls is BaseLetterSlot:
+            msg = "Cannot instantiate the base class."
+            raise TypeError(msg)
+        return super().__new__(cls)
 
     letter_tile: LetterTile | None = None
 
