@@ -9,8 +9,6 @@ import pytest
 from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot
 from bongo_solver.letter_tile import LetterTile
 
-# TODO: (ZD) UPATE TO NOT BE INSTANTIABLE
-
 
 def test_init__raises() -> None:
     """Test that a BaseLetterSlot cannot be initialized."""

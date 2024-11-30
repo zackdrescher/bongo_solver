@@ -76,7 +76,11 @@ def test_get_bonus_ix__with_bonus(bonus_ix: int) -> None:
     assert result == bonus_ix
 
 
-def test_parse_slot_from_symbol__space__empty_slot():
+def test_parse_slot_from_symbol__space__empty_slot() -> None:
+    """Test that parse_slot_from_symbol returns an empty slot when passed a space."""
     result = parse_slot_from_symbol(" ")
 
     assert result == LetterSlot()
+
+
+# TODO: (ZD) Add more tests for parse_slot_from_symbol

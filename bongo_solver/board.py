@@ -1,12 +1,14 @@
 """A board of word rows that make up a Bongo puzzle."""
 
+from __future__ import annotations
+
 from typing import cast
 
-from bongo_solver.dictionary import Dictionary
+from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.word.bonus_word import BonusWord
 
-from .word.word_row import WordRow
+from .word.word_row import WordRow  # noqa: TC001
 
 BOARD_SIZE = 5
 
@@ -32,6 +34,8 @@ def try_get_bonus_word(rows: list[WordRow], dictionary: Dictionary) -> BonusWord
 
 class Board:
     """A board of word rows that make up a Bongo puzzle."""
+
+    # TODO: (ZD) initialize board from string
 
     def __init__(self, rows: list[WordRow], dictionary: Dictionary) -> None:
         """Initialize the board."""

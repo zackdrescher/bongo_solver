@@ -1,3 +1,5 @@
+"""Contains tests for the BonusWord class."""
+
 from unittest.mock import MagicMock
 
 import pytest
