@@ -43,15 +43,19 @@ def test_validate_bonus_slots__valid(bonus_ixs: list[int]) -> None:
     mock_dictionary = MagicMock(Dictionary)
     rows = [MagicMock(WordRow) for _ in range(5)]
 
+    mock_bonus_slots = []
     for i, ix in enumerate(bonus_ixs):
         rows[i].get_bonus_ix.return_value = ix
-        rows[i].__getitem__.return_value = MagicMock(BonusLetterSlot)
+        mock_slot = MagicMock(BonusLetterSlot)
+        rows[i].__getitem__.return_value = mock_slot
+        mock_bonus_slots.append(mock_slot)
 
     rows[-1].get_bonus_ix.return_value = -1
 
     result = try_get_bonus_word(rows, mock_dictionary)  # type: ignore[arg-type]
 
     assert result
+    assert result.slots == mock_bonus_slots
 
 
 @pytest.mark.parametrize(
