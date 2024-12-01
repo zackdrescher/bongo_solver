@@ -10,8 +10,8 @@ from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.word.word_row import WordRow
 
 
-def test_validate_bonus_slots__no_bonus__invalid() -> None:
-    """Test that validate_bonus_slots returns False when there is no bonus slot."""
+def test_try_get_bonus_word__no_bonus__invalid() -> None:
+    """Test that try_get_bonus_word returns False when there is no bonus slot."""
     mock_dictionary = MagicMock(Dictionary)
     rows = [MagicMock(WordRow) for _ in range(5)]
     for row in rows:
@@ -22,8 +22,8 @@ def test_validate_bonus_slots__no_bonus__invalid() -> None:
     assert not result
 
 
-def test_validate_bonus_slots__all_bonus__invalid() -> None:
-    """Test that validate_bonus_slots returns True when the bonus slots are valid."""
+def test_try_get_bonus_word__all_bonus__invalid() -> None:
+    """Test that try_get_bonus_word returns True when the bonus slots are valid."""
     mock_dictionary = MagicMock(Dictionary)
     rows = [MagicMock(WordRow) for _ in range(5)]
     for row in rows:
@@ -38,8 +38,8 @@ def test_validate_bonus_slots__all_bonus__invalid() -> None:
     "bonus_ixs",
     [[0, 0, 0, 0], [0, 1, 2, 3], [4, 3, 2, 1], [0, 1, 0, 1]],
 )
-def test_validate_bonus_slots__valid(bonus_ixs: list[int]) -> None:
-    """Test that validate_bonus_slots returns True when the bonus slots are valid."""
+def test_try_get_bonus_word__valid(bonus_ixs: list[int]) -> None:
+    """Test that try_get_bonus_word returns True when the bonus slots are valid."""
     mock_dictionary = MagicMock(Dictionary)
     rows = [MagicMock(WordRow) for _ in range(5)]
 
@@ -69,8 +69,8 @@ def test_validate_bonus_slots__valid(bonus_ixs: list[int]) -> None:
         [0, 1, 0, 4],
     ],
 )
-def test_validate_bonus_slots__invalid(bonus_ixs: list[int]) -> None:
-    """Test that validate_bonus_slots returns False when the bonus slots are invalid."""
+def test_try_get_bonus_word__invalid(bonus_ixs: list[int]) -> None:
+    """Test that try_get_bonus_word returns False when the bonus slots are invalid."""
     mock_dictionary = MagicMock(Dictionary)
     rows = [MagicMock(WordRow) for _ in range(5)]
 
