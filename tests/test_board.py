@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Generator
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -12,6 +12,9 @@ from bongo_solver.dictionary import Dictionary
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.word.bonus_word import BonusWord
 from bongo_solver.word.word_row import WordRow
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 def test_try_get_bonus_word__no_bonus__invalid() -> None:
@@ -162,7 +165,7 @@ def test_init__invalid_rows(mock_try_get_bonus_word: MagicMock) -> None:
 
 
 def test_init__invalid_bonus_word() -> None:
-    """Test that the Board constructor raises a ValueError when the bonus word is invalid."""
+    """Test  constructor raises a ValueError when the bonus word is invalid."""
     mock_dictionary = MagicMock(Dictionary)
     with patch(
         "bongo_solver.board.try_get_bonus_word",
