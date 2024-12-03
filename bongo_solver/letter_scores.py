@@ -18,13 +18,17 @@ def try_get_letter_score(letter: str | Letter) -> int:
 
 
 LETTER_SCORES = {
+    "V": 85,
     "F": 65,
+    "K": 50,
+    "B": 45,
+    "G": 45,
     "C": 40,
     "H": 40,
     "P": 35,
     "N": 20,
+    "T": 10,
     "I": 9,
-    "T": 9,
     "O": 7,
     "R": 7,
     "A": 5,
