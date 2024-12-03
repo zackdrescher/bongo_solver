@@ -184,3 +184,4 @@ def test_init__valid(mock_try_get_bonus_word: MagicMock) -> None:
     board = Board([MagicMock(WordRow) for _ in range(5)], mock_dictionary)
 
     assert board
+    mock_try_get_bonus_word.assert_called_once()
