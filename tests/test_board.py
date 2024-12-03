@@ -149,4 +149,38 @@ def test_from_str__valid__calls_from_str(
     mock_try_get_bonus_word.assert_called_once()
 
 
-# TODO; (ZD) TEST INIT
+def test_init__invalid_rows(mock_try_get_bonus_word: MagicMock) -> None:
+    """Test that the Board constructor raises a ValueError when the rows are invalid."""
+    mock_dictionary = MagicMock(Dictionary)
+    with pytest.raises(
+        ValueError,
+        match="A board must contain 5 rows.",
+    ):
+        Board([MagicMock(WordRow) for _ in range(4)], mock_dictionary)
+
+    mock_try_get_bonus_word.assert_not_called()
+
+
+def test_init__invalid_bonus_word() -> None:
+    """Test that the Board constructor raises a ValueError when the bonus word is invalid."""
+    mock_dictionary = MagicMock(Dictionary)
+    with patch(
+        "bongo_solver.board.try_get_bonus_word",
+        return_value=None,
+    ) as mock_try_get_bonus_word:
+        with pytest.raises(
+            ValueError,
+            match="The board does not have a valid bonus word configuration.",
+        ):
+            Board([MagicMock(WordRow) for _ in range(5)], mock_dictionary)
+
+        mock_try_get_bonus_word.assert_called_once()
+
+
+def test_init__valid(mock_try_get_bonus_word: MagicMock) -> None:
+    """Test that the Board constructor initializes the object with valid arguments."""
+    mock_dictionary = MagicMock(Dictionary)
+
+    board = Board([MagicMock(WordRow) for _ in range(5)], mock_dictionary)
+
+    assert board
