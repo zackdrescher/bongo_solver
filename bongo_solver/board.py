@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from typing import cast
 
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.word.bonus_word import BonusWord
 
-from .word.word_row import WordRow  # noqa: TC001
+from .word.word_row import WordRow
 
 BOARD_SIZE = 5
 
@@ -32,10 +33,22 @@ def try_get_bonus_word(rows: list[WordRow], dictionary: Dictionary) -> BonusWord
     return BonusWord(bonus_slots, dictionary)
 
 
+BOARD_ROW_PATTERN = re.compile(r"(\[.....\])")
+
+
 class Board:
     """A board of word rows that make up a Bongo puzzle."""
 
-    # TODO: (ZD) initialize board from string
+    @classmethod
+    def from_str(cls, board_str: str, dictionary: Dictionary) -> Board:
+        """Convert a string contianin a board configuration."""
+        matches = re.findall(BOARD_ROW_PATTERN, board_str)
+        msg = "Insufficient board configuration in board_str."
+
+        if len(matches) != BOARD_SIZE:
+            raise ValueError(msg)
+        words = [WordRow.from_str(row, dictionary) for row in matches]
+        return cls(words, dictionary)
 
     def __init__(self, rows: list[WordRow], dictionary: Dictionary) -> None:
         """Initialize the board."""

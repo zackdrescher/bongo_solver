@@ -1,12 +1,16 @@
 """Tests for the board module."""
 
-from unittest.mock import MagicMock
+from __future__ import annotations
+
+from collections.abc import Generator
+from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bongo_solver.board import try_get_bonus_word
+from bongo_solver.board import Board, try_get_bonus_word
 from bongo_solver.dictionary import Dictionary
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
+from bongo_solver.word.bonus_word import BonusWord
 from bongo_solver.word.word_row import WordRow
 
 
@@ -83,3 +87,66 @@ def test_try_get_bonus_word__invalid(bonus_ixs: list[int]) -> None:
     result = try_get_bonus_word(rows, mock_dictionary)  # type: ignore[arg-type]
 
     assert not result
+
+
+CONTENTS = "     "
+ROW = f"[{CONTENTS}]"
+
+
+@pytest.fixture
+def mock_word_row__from_str() -> Generator[MagicMock, None, None]:
+    """Patch the WordRow.from_str method with a MagicMock."""
+    mock = MagicMock(WordRow)
+
+    with patch(
+        "bongo_solver.board.WordRow.from_str",
+        return_value=mock,
+    ) as mock_from_str:
+        yield mock_from_str
+
+
+@pytest.mark.parametrize(
+    "str_board",
+    ["", ROW, "".join([ROW] * 4), "\n".join([ROW] * 4)],
+)
+def test_from_str__invalid(mock_word_row__from_str: MagicMock, str_board: str) -> None:
+    """Test that from_str raises a ValueError when the board string is invalid."""
+    mock_dictionary = MagicMock(Dictionary)
+    with pytest.raises(
+        ValueError,
+        match="Insufficient board configuration in board_str.",
+    ):
+        Board.from_str(str_board, mock_dictionary)
+
+    mock_word_row__from_str.assert_not_called()
+
+
+@pytest.fixture
+def mock_try_get_bonus_word() -> Generator[MagicMock, None, None]:
+    """Patch the try_get_bonus_word method with a MagicMock."""
+    mock = MagicMock(BonusWord)
+    with patch(
+        "bongo_solver.board.try_get_bonus_word",
+        return_value=mock,
+    ) as mock_try_get_bonus_word:
+        yield mock_try_get_bonus_word
+
+
+@pytest.mark.parametrize(
+    "str_board",
+    ["".join([ROW] * 5), "\n".join([ROW] * 5)],
+)
+def test_from_str__valid__calls_from_str(
+    mock_word_row__from_str: MagicMock,
+    mock_try_get_bonus_word: MagicMock,
+    str_board: str,
+) -> None:
+    """Test that from_str raises a ValueError when the board string is invalid."""
+    mock_dictionary = MagicMock(Dictionary)
+    Board.from_str(str_board, mock_dictionary)
+
+    assert mock_word_row__from_str.call_count == 5
+    mock_try_get_bonus_word.assert_called_once()
+
+
+# TODO; (ZD) TEST INIT
