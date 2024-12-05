@@ -60,3 +60,5 @@ class Board:
         if not self.__bonus_word:
             msg = "The board does not have a valid bonus word configuration."
             raise ValueError(msg)
+
+    # TODO: (ZD) SCORE
