@@ -61,4 +61,5 @@ class Board:
             msg = "The board does not have a valid bonus word configuration."
             raise ValueError(msg)
 
-    # TODO: (ZD) SCORE
+    # TODO(ZD): SCORE
+    # https://github.com/zackdrescher/bongo_solver/issues/2
