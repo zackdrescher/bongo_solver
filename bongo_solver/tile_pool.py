@@ -11,6 +11,14 @@ from .letter_tile import LetterTile
 tile_quantity_patern = re.compile(r"([A-Za-z])\((\d+)\)\s?(\d?)")
 
 
+def validate_scores(letter_dict: dict[Letter, list[LetterTile]]) -> bool:
+    """Check that the scores of the tiles are consistent."""
+    for tiles in letter_dict.values():
+        if not all(tile.score == tiles[0].score for tile in tiles):
+            return False
+    return True
+
+
 class TilePool:
     """Contains a finite set of letter tiles."""
 
@@ -43,6 +51,10 @@ class TilePool:
                 self.__letter_dict[tile.letter].append(tile)
             else:
                 self.__letter_dict[tile.letter] = [tile]
+
+        if not validate_scores(self.__letter_dict):
+            msg = "Scores of tiles are inconsistent."
+            raise ValueError(msg)
 
     def __getitem__(self, item: str | Letter | LetterTile) -> list[LetterTile]:
         """Get a tile from the pool."""

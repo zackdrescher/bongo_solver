@@ -1,5 +1,7 @@
 """Tests for TilePool class."""
 
+import pytest
+
 from bongo_solver.letter import Letter
 from bongo_solver.tile_pool import TilePool
 
@@ -123,3 +125,9 @@ def test_score_of() -> None:
     assert pool.score_of("B") == 30
     assert pool.score_of("C") == 40
     assert pool.score_of("D") is None
+
+
+def test_validate_scores__not_valid__raises() -> None:
+    """Tests that the validate scores function works correctly."""
+    with pytest.raises(ValueError, match="Scores of tiles are inconsistent."):
+        TilePool.from_str("A(20)2A(30)C(40)3D(10)")
