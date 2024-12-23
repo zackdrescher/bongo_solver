@@ -11,6 +11,8 @@ from .letter_tile import LetterTile
 
 tile_quantity_patern = re.compile(r"([A-Za-z])\((\d+)\)\s?(\d?)")
 
+VALIDATE_SCORES = True
+
 
 def validate_scores(letter_dict: dict[Letter, list[LetterTile]]) -> bool:
     """Check that the scores of the tiles are consistent."""
@@ -53,7 +55,7 @@ class TilePool:
             else:
                 self.__letter_dict[tile.letter] = [tile]
 
-        if not validate_scores(self.__letter_dict):
+        if VALIDATE_SCORES and not validate_scores(self.__letter_dict):
             msg = "Scores of tiles are inconsistent."
             raise ValueError(msg)
 
@@ -105,3 +107,14 @@ class TilePool:
             del self.__letter_dict[letter]
 
         return tile
+
+    def add(self, tile: LetterTile) -> None:
+        """Add a tile to the pool."""
+        if tile.letter in self.__letter_dict:
+            tiles = self.__letter_dict[tile.letter]
+            if VALIDATE_SCORES and not all(t.score == tile.score for t in tiles):
+                msg = "New tile score does not match existing tiles."
+                raise ValueError(msg)
+            tiles.append(tile)
+        else:
+            self.__letter_dict[tile.letter] = [tile]

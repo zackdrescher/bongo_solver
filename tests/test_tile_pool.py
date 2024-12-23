@@ -3,6 +3,7 @@
 import pytest
 
 from bongo_solver.letter import Letter
+from bongo_solver.letter_tile import LetterTile
 from bongo_solver.tile_pool import TilePool
 
 
@@ -158,3 +159,29 @@ def test_take__removes_last__removes_letter() -> None:
     assert pool.count_of("A") == 0
     assert result is not None
     assert result.score == 20
+
+
+def test_add__new_letter__adds() -> None:
+    """Tests that adding a new letter to the pool works correctly."""
+    pool = TilePool.from_str("A(20)2B(30)C(40)3")
+    pool.add(LetterTile("D", 10))
+    assert pool.count_of("D") == 1
+    assert pool.score_of("D") == 10
+
+
+def test_add__existing_letter__adds() -> None:
+    """Tests that adding a new letter to the pool works correctly."""
+    pool = TilePool.from_str("A(20)2B(30)C(40)3")
+    pool.add(LetterTile("A", 20))
+    assert pool.count_of("A") == 3
+    assert pool.score_of("A") == 20
+
+
+def test_add__invalid_score__raises() -> None:
+    """Tests that adding a tile with an invalid score raises an error."""
+    pool = TilePool.from_str("A(20)2B(30)C(40)3")
+    with pytest.raises(
+        ValueError,
+        match="New tile score does not match existing tiles.",
+    ):
+        pool.add(LetterTile("A", 30))
