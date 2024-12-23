@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from bongo_solver.letter import Letter
+from bongo_solver.type_helpers.letter_like import coerce_to_letter
 
 from .letter_tile import LetterTile
 
@@ -58,10 +59,7 @@ class TilePool:
 
     def __getitem__(self, item: str | Letter | LetterTile) -> list[LetterTile]:
         """Get a tile from the pool."""
-        if isinstance(item, LetterTile):
-            item = item.letter
-        if isinstance(item, str):
-            item = Letter(item)
+        item = coerce_to_letter(item)
 
         return self.__letter_dict.get(item, [])
 
@@ -92,3 +90,18 @@ class TilePool:
             return None
 
         return letters[0].score
+
+    def take(self, letter: str | Letter) -> LetterTile | None:
+        """Take a letter from the pool."""
+        letter = coerce_to_letter(letter)
+        tiles = self[letter]
+
+        if not tiles:
+            return None
+
+        tile = tiles.pop()
+
+        if not tiles:
+            del self.__letter_dict[letter]
+
+        return tile

@@ -131,3 +131,30 @@ def test_validate_scores__not_valid__raises() -> None:
     """Tests that the validate scores function works correctly."""
     with pytest.raises(ValueError, match="Scores of tiles are inconsistent."):
         TilePool.from_str("A(20)2A(30)C(40)3D(10)")
+
+
+def test_take__exists__removes() -> None:
+    """Tests that taking a tile from the pool works correctly."""
+    pool = TilePool.from_str("A(20)2B(30)C(40)3")
+    result = pool.take("A")
+    assert pool.count_of("A") == 1
+    assert result is not None
+    assert result.score == 20
+
+
+def test_take__doesnt_exist__returns_none() -> None:
+    """Tests that taking a tile that doesn't exist returns None."""
+    pool = TilePool.from_str("A(20)2B(30)C(40)3")
+    result = pool.take("D")
+    assert pool.count_of("D") == 0
+    assert result is None
+    assert len(pool) == 6
+
+
+def test_take__removes_last__removes_letter() -> None:
+    """Tests that taking the last tile of a letter removes the letter."""
+    pool = TilePool.from_str("A(20)")
+    result = pool.take("A")
+    assert pool.count_of("A") == 0
+    assert result is not None
+    assert result.score == 20
