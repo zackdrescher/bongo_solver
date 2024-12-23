@@ -9,13 +9,14 @@ from .letter_scores import try_get_letter_score
 class LetterTile:
     """A class to represent a letter tile in Bongo."""
 
-    def __init__(self, letter: str | Letter) -> None:
+    def __init__(self, letter: str | Letter, score: int | None = None) -> None:
         """Initialize the letter tile with a single character."""
         if isinstance(letter, str):
             letter = Letter(letter)
 
         self.__letter = letter
-        self.__score = try_get_letter_score(letter)
+
+        self.__score = score if score is not None else try_get_letter_score(letter)
 
     @property
     def letter(self) -> Letter:
