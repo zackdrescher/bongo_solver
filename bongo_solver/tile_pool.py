@@ -60,3 +60,23 @@ class TilePool:
     def __len__(self) -> int:
         """Return the number of tiles in the pool."""
         return sum(len(tiles) for tiles in self.__letter_dict.values())
+
+    def count_by_letter(self) -> dict[Letter, int]:
+        """Return the count of each letter in the pool."""
+        return {letter: len(tiles) for letter, tiles in self.__letter_dict.items()}
+
+    def score_by_letter(self) -> dict[Letter, int]:
+        """Return the score of each letter in the pool."""
+        return {letter: tiles[0].score for letter, tiles in self.__letter_dict.items()}
+
+    def count_of(self, letter: str | Letter) -> int:
+        """Return the count of a letter in the pool."""
+        return len(self[letter])
+
+    def score_of(self, letter: str | Letter) -> int | None:
+        """Return the score of a letter in the pool."""
+        letters = self[letter]
+        if not letters:
+            return None
+
+        return letters[0].score
