@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from bongo_solver.letter import Letter
+from bongo_solver.letter import Letter  # noqa: TC001
 from bongo_solver.type_helpers.letter_like import coerce_to_letter
 
 from .letter_tile import LetterTile
