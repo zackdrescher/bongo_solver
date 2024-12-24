@@ -24,3 +24,5 @@ jobs:
         run: poetry install
       - name: Ruff
         run: poetry run ruff check --output-format=github .
+      - name: mypy
+        run: poetry run mypy .
