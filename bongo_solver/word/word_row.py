@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Sequence
 
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot  # noqa: TC001
@@ -33,7 +34,7 @@ class WordRow(Word):
 
         return cls(slots, dictionary)
 
-    def __init__(self, slots: list[BaseLetterSlot], dictionary: Dictionary) -> None:
+    def __init__(self, slots: Sequence[BaseLetterSlot], dictionary: Dictionary) -> None:
         """Initialize the word row."""
         if len(slots) != WORD_ROW_LENGTH:
             msg = f"A word row must contain {WORD_ROW_LENGTH} slots."

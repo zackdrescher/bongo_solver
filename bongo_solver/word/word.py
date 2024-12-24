@@ -30,7 +30,7 @@ class Word:
         self.__dictionary = dictionary
 
     @property
-    def slots(self) -> list[BaseLetterSlot]:
+    def slots(self) -> Sequence[BaseLetterSlot]:
         """Return the slots in the word row."""
         return self.__slots
 

@@ -27,6 +27,7 @@ def mock_try_get_letter_score__different_scores(
     mock_try_get_letter_score = MagicMock()
     score = 0
     mock_try_get_letter_score.side_effect = lambda: score + 1
+    return mock_try_get_letter_score
 
 
 def test_init__valid_letter_str__creates_letter_tile(
