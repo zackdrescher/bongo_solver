@@ -20,5 +20,7 @@ jobs:
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
       - name: Ruff
         run: poetry run ruff check --output-format=github .
