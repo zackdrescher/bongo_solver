@@ -27,7 +27,7 @@ jobs:
       - name: mypy
         run: poetry run mypy .
       - name: pytest
-        run: poetry run covereage run -m pytest
+        run: poetry run coverage run -m pytest
       - name: coverage report
         run: |
           poetry run coverage report --format markdown | tee code-coverage-results.md
