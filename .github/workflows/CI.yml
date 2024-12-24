@@ -27,7 +27,7 @@ jobs:
       - name: mypy
         run: poetry run mypy .
       - name: pytest
-        run: poetry run pytest --cov=bongo_solver tests --junitxml=coverage.xml
+        run: poetry run pytest --cov=bongo_solver tests --cov-report "xml:coverage.xml"
       - name: Pytest coverage comment
         uses: MishaKav/pytest-coverage-comment@main
         with:
