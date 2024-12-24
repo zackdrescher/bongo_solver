@@ -33,3 +33,7 @@ class Letter:
             return self.letter == other.upper()
 
         return False
+
+    def __hash__(self) -> int:
+        """Hash the letter."""
+        return hash(self.letter)
