@@ -26,3 +26,5 @@ jobs:
         run: poetry run ruff check --output-format=github .
       - name: mypy
         run: poetry run mypy .
+      - name: pytest
+        run: poetry run pytest
