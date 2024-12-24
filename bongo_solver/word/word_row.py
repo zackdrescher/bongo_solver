@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Sequence
+from collections.abc import Sequence  # noqa: TC003
 
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot  # noqa: TC001
