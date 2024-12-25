@@ -21,10 +21,12 @@ class LetterSlot(BaseLetterSlot):
         return self.__multiplier > 1
 
     @property
-    def score(self) -> int:  # noqa: D102
+    def score(self) -> int:
+        """Return the score of the letter slot."""
         return super().score * self.multiplier
 
-    def __str__(self) -> str:  # noqa: D105
+    def __str__(self) -> str:
+        """Return a string representation of the letter slot."""
         if self.is_empty and self.is_multiplier:
             return f"[{self.__multiplier}x]"
 
