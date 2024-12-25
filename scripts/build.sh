@@ -8,4 +8,4 @@ echo "Running pytest:"
 coverage run -m pytest
 
 echo "Running coverage:"
-poetry run coverage report
+coverage report
