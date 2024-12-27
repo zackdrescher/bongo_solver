@@ -78,6 +78,16 @@ def test__str__letter() -> None:
     assert result == "[A(1)]"
 
 
+def test__str__multiplier() -> None:
+    """Test that str returns the expected value when the slot is a multiplier."""
+    slot = LetterSlot(multiplier=2)
+    assert str(slot) == "[2]"
+
+
+# TODO(ZD): TEST STR LETTER MULTIPLIER
+# https://github.com/zackdrescher/bongo_solver/issues/8
+
+
 @pytest.mark.parametrize(
     ("multiplier", "letter_tile"),
     [  # noqa: ERA001, RUF100
@@ -110,9 +120,3 @@ def test_is_multiplier__not_multiplier() -> None:
     """Test that is_multiplier returns False when the slot is not a multiplier."""
     slot = LetterSlot()
     assert slot.is_multiplier is False
-
-
-def test__str__multiplier() -> None:
-    """Test that str returns the expected value when the slot is a multiplier."""
-    slot = LetterSlot(multiplier=2)
-    assert str(slot) == "[2x]"

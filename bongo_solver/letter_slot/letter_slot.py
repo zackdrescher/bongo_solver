@@ -48,7 +48,7 @@ class LetterSlot:
                 f"({self.letter_tile.score}x{self.__multiplier})"
             )
         else:
-            contents = " "
+            contents = f"{self.multiplier}" if self.is_multiplier else " "
 
         return f"[{contents}]"
 
