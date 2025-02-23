@@ -22,6 +22,16 @@ def test_parse_slot_from_symbol__digit__letter_slot(multiplier: int) -> None:
     assert result == LetterSlot(multiplier)
 
 
+@pytest.mark.parametrize("multiplier", list(range(1, 4)))
+def test_parse_slot_from_symbol__digit_astrisk__bonus_letter_slot(
+    multiplier: int,
+) -> None:
+    """Test that parse_slot_from_symbol returns a letter slot when passed a digit."""
+    result = parse_slot_from_symbol(str(multiplier) + "*")
+
+    assert result == BonusLetterSlot(multiplier)
+
+
 @pytest.mark.parametrize("value", ["B", "b"])
 def test_parse_slot_from_symbol__b__bonus_letter_slot(value: str) -> None:
     """Test that parse_slot_from_symbol returns a bonus letter slot when passed "B"."""
@@ -30,14 +40,26 @@ def test_parse_slot_from_symbol__b__bonus_letter_slot(value: str) -> None:
     assert isinstance(result, BonusLetterSlot)
 
 
-@pytest.mark.parametrize("value", ["A", "a", "-", "/"])
+@pytest.mark.parametrize("value", ["A", "a", "-", "/", "ab"])
 def test_parse_slot_from_symbol__invalid(value: str) -> None:
-    """Test that parse_slot_from_symbol raises a ValueError when symbolis  invalid."""
+    """Test that parse_slot_from_symbol raises a ValueError when symbolis invalid."""
     with pytest.raises(ValueError, match=f"Encountered invlaid slot symbol: {value}."):
         parse_slot_from_symbol(value)
 
 
-def test_parse_slot_from_symbol__invalid_length() -> None:
+def test_parse_slot_from_symbol__empty__invalid_length() -> None:
     """Test that parse_slot_from_symbol raises a ValueError string length > 1."""
-    with pytest.raises(ValueError, match="Symbol can only be a single character."):
-        parse_slot_from_symbol("ab")
+    with pytest.raises(
+        ValueError,
+        match="Symbol can only be a single character or astrisk following digit.",
+    ):
+        parse_slot_from_symbol("")
+
+
+def test_parse_slot_from_symbol__3char__invalid_length() -> None:
+    """Test that parse_slot_from_symbol raises a ValueError string length > 1."""
+    with pytest.raises(
+        ValueError,
+        match="Symbol can only be a single character or astrisk following digit.",
+    ):
+        parse_slot_from_symbol("abc")
