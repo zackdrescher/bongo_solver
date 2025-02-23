@@ -9,7 +9,7 @@ from bongo_solver import nobeartype
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 
 if TYPE_CHECKING:  # pragma: no cover
-    from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot
+    from bongo_solver.letter_slot.letter_slot import LetterSlot
     from bongo_solver.letter_tile import LetterTile
 
 
@@ -24,13 +24,13 @@ class Word:
             raise TypeError(msg)
         return super().__new__(cls)
 
-    def __init__(self, slots: Sequence[BaseLetterSlot], dictionary: Dictionary) -> None:
+    def __init__(self, slots: Sequence[LetterSlot], dictionary: Dictionary) -> None:
         """Initialize the word."""
         self.__slots = slots
         self.__dictionary = dictionary
 
     @property
-    def slots(self) -> Sequence[BaseLetterSlot]:
+    def slots(self) -> Sequence[LetterSlot]:
         """Return the slots in the word row."""
         return self.__slots
 
@@ -59,7 +59,7 @@ class Word:
             for slot in self.__slots
         ).strip()
 
-    def __getitem__(self, index: int) -> BaseLetterSlot:
+    def __getitem__(self, index: int) -> LetterSlot:
         """Return the slot at the given index."""
         return self.__slots[index]
 

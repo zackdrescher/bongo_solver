@@ -5,7 +5,6 @@ from unittest.mock import MagicMock
 import pytest
 
 from bongo_solver.dictionary import Dictionary
-from bongo_solver.letter_slot.base_letter_slot import BaseLetterSlot
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
 from bongo_solver.letter_slot.letter_slot import LetterSlot
 from bongo_solver.word.word_row import WordRow
@@ -13,7 +12,7 @@ from bongo_solver.word.word_row import WordRow
 
 def test_init__successful() -> None:
     """Test that a WordRow can be initialized."""
-    slots: list[BaseLetterSlot] = [
+    slots: list[LetterSlot] = [
         LetterSlot(),
         LetterSlot(),
         LetterSlot(),
@@ -66,7 +65,7 @@ def test_get_bonus_ix__no_bonus() -> None:
 @pytest.mark.parametrize("bonus_ix", [0, 1, 2, 3, 4])
 def test_get_bonus_ix__with_bonus(bonus_ix: int) -> None:
     """Test that get_bonus_ix returns the index of the bonus slot."""
-    slots: list[BaseLetterSlot] = [LetterSlot() for _ in range(5)]
+    slots: list[LetterSlot] = [LetterSlot() for _ in range(5)]
     slots[bonus_ix] = BonusLetterSlot()
     dictionary = MagicMock(Dictionary)
     word_row = WordRow(slots, dictionary)
@@ -109,10 +108,8 @@ def test_from_str__with_bonus__successful(bonus_ix: int, bonus_symbol: str) -> N
 
     assert isinstance(word_row, WordRow)
     assert len(word_row.slots) == 5
-    assert all(isinstance(slot, BaseLetterSlot) for slot in word_row.slots[:bonus_ix])
-    assert all(
-        isinstance(slot, BaseLetterSlot) for slot in word_row.slots[bonus_ix + 1 :]
-    )
+    assert all(isinstance(slot, LetterSlot) for slot in word_row.slots[:bonus_ix])
+    assert all(isinstance(slot, LetterSlot) for slot in word_row.slots[bonus_ix + 1 :])
     assert isinstance(word_row.slots[bonus_ix], BonusLetterSlot)
 
 

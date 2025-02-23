@@ -1,11 +1,15 @@
 """Contains the BonusLetterSlot class."""
 
-from .base_letter_slot import BaseLetterSlot
+from .letter_slot import LetterSlot
 
 
-class BonusLetterSlot(BaseLetterSlot):
+class BonusLetterSlot(LetterSlot):
     """A letter slot that is used a part of the bonus word."""
 
-    def __init__(self) -> None:
-        """Initialize the bonus letter slot."""
-        super().__init__()
+    container_format = "({})"
+
+    @property
+    def contents(self) -> str:
+        """Gets the string representation of the contents of the slot."""
+        contents = super().contents
+        return "B" if contents == " " else contents
