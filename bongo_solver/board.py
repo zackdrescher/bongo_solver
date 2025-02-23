@@ -7,11 +7,15 @@ from typing import cast
 
 from bongo_solver.dictionary import Dictionary  # noqa: TC001
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
+from bongo_solver.letter_slot.letter_slot import LetterSlot
+from bongo_solver.letter_tile import LetterTile
 from bongo_solver.word.bonus_word import BonusWord
 
 from .word.word_row import WordRow
 
 BOARD_SIZE = 5
+
+Position = tuple[int, int]
 
 
 def try_get_bonus_word(rows: list[WordRow], dictionary: Dictionary) -> BonusWord | None:
@@ -34,6 +38,16 @@ def try_get_bonus_word(rows: list[WordRow], dictionary: Dictionary) -> BonusWord
 
 
 BOARD_ROW_PATTERN = re.compile(r"(\[.....\])")
+
+
+def position_valid(p: Position) -> bool:
+    """Check if postion is valid in board."""
+    return pos_ix_valid(p[0]) and pos_ix_valid(p[1])
+
+
+def pos_ix_valid(i: int) -> bool:
+    """Check if int is valid position."""
+    return i >= 0 and i < BOARD_SIZE
 
 
 class Board:
@@ -60,6 +74,38 @@ class Board:
         if not self.__bonus_word:
             msg = "The board does not have a valid bonus word configuration."
             raise ValueError(msg)
+
+    def get_slot(self, i: int, j: int) -> LetterSlot:
+        """Get the letter slot at a board position."""
+        return self.get_position_slot((i, j))
+
+    def get_position_slot(self, p: Position) -> LetterSlot:
+        """Get the letter slot at a board position."""
+        if not position_valid(p):
+            msg = f"position {p} out of bounds."
+            raise IndexError(msg)
+        i, j = p
+        return self.__rows[i][j]
+
+    def place_tile(self, tile: LetterTile | None, p: Position) -> LetterTile | None:
+        """Places the provided tile in the letter slot at postion.
+
+        if previouslt occupied returns previously occupying tile otherwise returns null.
+        """
+        postion_slot = self.get_position_slot(p)
+        prev_tile = postion_slot.letter_tile
+
+        postion_slot.letter_tile = tile
+
+        return prev_tile
+
+    def __getitem__(self, p: Position) -> LetterSlot:
+        """Get letter slot at position."""
+        return self.get_position_slot(p)
+
+    def __setitem__(self, p: Position, tile: LetterTile) -> None:
+        """Set letter tile in position slot."""
+        self.place_tile(tile, p)
 
     # TODO(ZD): SCORE
     # https://github.com/zackdrescher/bongo_solver/issues/2

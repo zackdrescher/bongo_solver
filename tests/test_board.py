@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -10,6 +10,7 @@ import pytest
 from bongo_solver.board import Board, try_get_bonus_word
 from bongo_solver.dictionary import Dictionary
 from bongo_solver.letter_slot.bonus_letter_slot import BonusLetterSlot
+from bongo_solver.letter_slot.letter_slot import LetterSlot
 from bongo_solver.word.bonus_word import BonusWord
 from bongo_solver.word.word_row import WordRow
 
@@ -188,3 +189,69 @@ def test_init__valid(mock_try_get_bonus_word: MagicMock) -> None:
 
     assert board
     mock_try_get_bonus_word.assert_called_once()
+
+
+def test_get_position_slot__invalid_position__raises(
+    monkeypatch: pytest.MonkeyPatch,
+    mock_try_get_bonus_word: MagicMock,
+) -> None:
+    """Test that get_position_slot raises index error when positon is invalid."""
+    check_position_mock = MagicMock()
+    check_position_mock.return_value = False
+
+    monkeypatch.setattr("bongo_solver.board.position_valid", check_position_mock)
+
+    mock_dictionary = MagicMock(Dictionary)
+
+    row_mock = MagicMock(WordRow)
+    row_mock.__getitem__.return_value = MagicMock(LetterSlot)
+
+    board = Board([row_mock for _ in range(5)], mock_dictionary)
+
+    p = (1, 2)
+    with pytest.raises(IndexError):
+        board.get_position_slot(p)
+
+    check_position_mock.assert_called_once_with(p)
+
+
+def test_get_position_slot__position__returns(
+    mock_try_get_bonus_word: MagicMock,
+) -> None:
+    """Test that get_position_slot raises index error when positon is invalid."""
+    # arrange
+    mock_dictionary = MagicMock(Dictionary)
+
+    slot_mock = MagicMock(LetterSlot)
+
+    row_mocks = [
+        MagicMock(WordRow),
+        MagicMock(WordRow),
+        MagicMock(WordRow),
+        MagicMock(WordRow),
+        MagicMock(WordRow),
+    ]
+
+    for row_mock in row_mocks:
+        row_mock.__getitem__.return_value = slot_mock
+
+    board = Board([cast(WordRow, i) for i in row_mocks], mock_dictionary)
+
+    p = (1, 2)
+
+    # act
+    result = board.get_position_slot(p)
+
+    assert result is slot_mock
+
+    # assert
+    i, j = p
+
+    for ix, row in enumerate(row_mocks):
+        if ix != i:
+            row.__getitem__.assert_not_called()
+        else:
+            row.__getitem__.assert_called_once_with(j)
+
+
+# TODO: (ZD) TEST PLACE TILE
