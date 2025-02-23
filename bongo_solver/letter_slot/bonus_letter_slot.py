@@ -6,17 +6,10 @@ from .letter_slot import LetterSlot
 class BonusLetterSlot(LetterSlot):
     """A letter slot that is used a part of the bonus word."""
 
-    def __str__(self) -> str:
-        """Return a string representation of the letter slot."""
-        contents: str
-        if self.letter_tile is not None:
-            contents = (
-                str(self.letter_tile)
-                if not self.is_multiplier
-                else f"{self.letter_tile.letter}"
-                f"({self.letter_tile.score}x{self.__multiplier})B"
-            )
-        else:
-            contents = "B"
+    container_format = "({})"
 
-        return f"[{contents}]"
+    @property
+    def contents(self) -> str:
+        """Gets the string representation of the contents of the slot."""
+        contents = super().contents
+        return "B" if contents == " " else contents

@@ -8,6 +8,8 @@ from bongo_solver.letter_tile import LetterTile  # noqa: TC001
 class LetterSlot:
     """A slot to contain a letter in a word."""
 
+    container_format = "[{}]"
+
     letter_tile: LetterTile | None = None
 
     def __init__(self, multiplier: int = 1) -> None:
@@ -37,20 +39,21 @@ class LetterSlot:
         """Return True if the slot is empty."""
         return self.letter_tile is None
 
-    def __str__(self) -> str:
-        """Return a string representation of the letter slot."""
-        contents: str
+    @property
+    def contents(self) -> str:
+        """Gets the string representation of the contents of the slot."""
         if self.letter_tile is not None:
-            contents = (
+            return (
                 str(self.letter_tile)
                 if not self.is_multiplier
                 else f"{self.letter_tile.letter}"
                 f"({self.letter_tile.score}){self.__multiplier}x"
             )
-        else:
-            contents = f"{self.multiplier}" if self.is_multiplier else " "
+        return f"{self.multiplier}" if self.is_multiplier else " "
 
-        return f"[{contents}]"
+    def __str__(self) -> str:
+        """Return a string representation of the letter slot."""
+        return self.container_format.format(self.contents)
 
     def __repr__(self) -> str:
         """Return a string representation of the letter slot."""

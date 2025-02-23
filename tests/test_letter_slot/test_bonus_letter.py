@@ -9,5 +9,14 @@ def test_bonus_letter_slot__init__no_tile() -> None:
     assert slot.letter_tile is None
 
 
-# TODO(ZD): TEST STR
-# https://github.com/zackdrescher/bongo_solver/issues/8
+def test_bonus_letter_slot_str__empty__contains_b() -> None:
+    """Test that an empty bonus slot contains B."""
+    slot = BonusLetterSlot()
+    assert slot.contents == "B"
+
+
+def test_bonus_letter_slot_str__mult__has_parens() -> None:
+    """Test that an multiplier bonus slot contains uses parenthesis."""
+    slot = BonusLetterSlot(multiplier=2)
+
+    assert str(slot) == "(2)"
