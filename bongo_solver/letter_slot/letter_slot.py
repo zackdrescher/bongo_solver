@@ -45,7 +45,7 @@ class LetterSlot:
                 str(self.letter_tile)
                 if not self.is_multiplier
                 else f"{self.letter_tile.letter}"
-                f"({self.letter_tile.score}x{self.__multiplier})"
+                f"({self.letter_tile.score}){self.__multiplier}x"
             )
         else:
             contents = f"{self.multiplier}" if self.is_multiplier else " "

@@ -84,17 +84,16 @@ def test__str__multiplier() -> None:
     assert str(slot) == "[2]"
 
 
-# TODO(ZD): TEST STR LETTER MULTIPLIER
 # https://github.com/zackdrescher/bongo_solver/issues/8
 def test__str__letter_multiplier() -> None:
-    """Test that str returns the expected value when the slot contains a letter and is a multiplier."""
+    """Test that str value when the slot contains a letter and is a multiplier."""
     # arrange
     slot = LetterSlot(multiplier=2)
-    letter_mock = MagicMock(spec=LetterSlot)
-    letter_mock.__str__.return_value = "A(1)"  # type: ignore[attr-defined]
-    slot.letter_tile = letter_mock
+    letter = LetterTile("A", score=1)
 
-    assert str(slot) == "[A(1x2)]"
+    slot.letter_tile = letter
+
+    assert str(slot) == "[A(1)2x]"
 
 
 @pytest.mark.parametrize(
